@@ -1,0 +1,51 @@
+//For use with arduino
+
+float temp;
+
+int tempPin = A0; //for temperature sensor
+
+int tempMin = 85; // minimum temperature to start fan(motor)
+
+int tempMax = 101;
+
+int fan = 13; // pin to connect fan(motor) 
+
+int fanSpeed = 0;
+
+void setup() {
+
+pinMode(fan, OUTPUT);
+
+pinMode(tempPin, INPUT);
+
+Serial.begin(9600);
+
+}
+
+void loop() {
+
+temp = analogRead(tempPin);
+
+Serial.println(temp);
+
+delay(1000); 
+  
+
+if(temp < tempMin) { // when temperature is lower than minimum temperature 
+
+fanSpeed = 0; // fan off
+digitalWrite(fan, LOW);
+
+}
+
+if((temp >= tempMin) && (temp <= tempMax)) //if temperature is higher than minimum and lower than maxiumum
+
+{
+
+fanSpeed = map(temp, tempMin, tempMax, 30, 250); // speed of fan 
+
+analogWrite(fan, fanSpeed); // spin the fan at the fanSpeed speed
+
+}
+
+}
